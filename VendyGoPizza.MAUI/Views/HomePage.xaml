@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VendyGoPizza.MAUI.Views.HomePage"
+             Shell.NavBarIsVisible="False"
+             Padding="15">
+    
+    <ScrollView VerticalScrollBarVisibility="Never">
+        
+        <VerticalStackLayout Spacing="15">
+            
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 15"
+                    BackgroundColor="Goldenrod"
+                    VerticalOptions="Start"
+                    Padding="15">
+
+                <Grid ColumnDefinitions="*,150"
+                      RowDefinitions="*,auto">
+                    
+                    <VerticalStackLayout Grid.Column="0"
+                                         Grid.Row="0"
+                                         Spacing="10">
+                        <Label Text="Best Offer For You"
+                               
+                               HorizontalOptions="Center"
+                               FontAttributes="Bold"
+                               FontSize="20"/>
+                        
+                        <Label Text="Grab this amazing offer before it expires"
+                               FontAttributes="Italic"
+                               HorizontalOptions="Center"
+                               Margin="20,0,0,0"/>
+
+                        <Button BackgroundColor="PaleGoldenrod"
+                                TextColor="Black"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                CornerRadius="50"
+                                Grid.Row="1"
+                                Text="Get it now !"/>
+                    </VerticalStackLayout>
+
+                    <Image Grid.Column="1"
+                           Grid.Row="0"
+                           HorizontalOptions="EndAndExpand"
+                           Source="pizza.png"
+                           HeightRequest="130"
+                           WidthRequest="130"
+                           Aspect="AspectFill"/>
+
+                </Grid>
+                
+            </Border>
+
+            <Border Stroke="Goldenrod"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 20">
+
+                <Label Text="Search pizza ..."
+                       Padding="10"
+                       TextColor="Goldenrod"/>
+
+
+            </Border>
+
+            <BoxView HeightRequest="10"
+                     BackgroundColor="Transparent"/>
+
+            <Grid>
+                
+                <Label Text="Popular Items"
+                       HorizontalOptions="Start"
+                       VerticalOptions="End"
+                       FontSize="20"/>
+
+                <Label Text="View All"
+                       HorizontalOptions="End"
+                       VerticalOptions="End"
+                       TextDecorations="Underline"/>
+            </Grid>
+
+            <FlexLayout BindableLayout.ItemsSource="{Binding Pizzas}"
+                        Wrap="Wrap">
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border FlexLayout.Basis="50%"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="0"
+                                Margin="2"
+                                BackgroundColor="PaleGoldenrod">
+
+                            <Grid RowDefinitions="150, auto, auto, auto"
+                                  RowSpacing="5">
+
+                                <Image Source="{Binding Image}"
+                                       WidthRequest="90"
+                                       HeightRequest="80"
+                                       Grid.Row="0"/>
+
+                                <Label Text="{Binding Name}"
+                                       HorizontalOptions="Center"
+                                       Grid.Row="1"/>
+
+                                <Label Text="{Binding Price, StringFormat='{0:}€'}"
+                                       HorizontalOptions="Center"
+                                       Grid.Row="2"/>
+
+                                <Button Grid.Row="3"/>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+            
+            
+
+        </VerticalStackLayout>
+        
+    </ScrollView>
+</ContentPage>

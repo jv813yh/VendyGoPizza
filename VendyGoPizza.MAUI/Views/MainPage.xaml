@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VendyGoPizza.MAUI.Views.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="DarkGoldenrod">
+
+    <Grid RowDefinitions="auto,*,auto"
+          Padding="15,35">
+
+        <Label Grid.Row="0"
+               Text="VendyGo Pizza"
+               FontSize="40"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"/>
+
+        <Border Grid.Row="1"
+                HeightRequest="300"
+                WidthRequest="250"
+                StrokeThickness="8"
+                Padding="5"
+                StrokeShape="RoundRectangle 50">
+
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                <Image Source="PizzaImages/title_pizza.png"
+                       Aspect="AspectFit"
+                       HeightRequest="200"
+                       WidthRequest="200"/>
+
+                <Label Text="It can be yours, just a few clicks away"
+                       FontSize="18"
+                       FontAttributes="Italic"
+                       Opacity="0.5"
+                       Padding="30,10,30,0"/>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2"
+                             Margin="10"
+                             Spacing="15">
+
+            <Label Text="The Taste of VendyGo Pizza"
+                   HorizontalOptions="Center"
+                   FontSize="22"
+                   FontAttributes="Bold"/>
+
+            <Label Text="Get your favorite pizza delivered quickly with our app"
+                   HorizontalOptions="Center"/>
+
+            <Border StrokeShape="RoundRectangle 30"
+                    StrokeThickness="0"
+                    BackgroundColor="Goldenrod"
+                    HeightRequest="50">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizerHandler"/>
+                </Border.GestureRecognizers>
+
+                <HorizontalStackLayout Spacing="10"
+                                       Padding="0,5"
+                                       HorizontalOptions="Center">
+                    
+                    <Label Text="Get Started"
+                           FontSize="16"
+                           VerticalOptions="Center"
+                           FontAttributes="Bold"/>
+                    
+                    <Image Source="right_arrow"/>
+
+                </HorizontalStackLayout>
+
+
+            </Border>
+
+        </VerticalStackLayout>
+        
+    </Grid>
+
+</ContentPage>
