@@ -19,6 +19,8 @@
 
             // Register HomePage and HomeViewModel with ShellRoute
             builder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
+            // Register AllPizzasPage and AllPizzasViewModel with ShellRoute
+            builder.Services.AddSingletonWithShellRoute<AllPizzasPage, AllPizzasViewModel>(nameof(AllPizzasPage));  
 
 #if DEBUG
             builder.Logging.AddDebug();

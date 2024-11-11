@@ -8,6 +8,8 @@ public partial class HomePage : ContentPage
 	{
 		InitializeComponent();
         _homeViewModel = homeViewModel;
+
+        // Set the binding context to the view model
         BindingContext = _homeViewModel;
     }
 }

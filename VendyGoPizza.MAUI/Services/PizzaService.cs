@@ -2,6 +2,7 @@
 {
     public class PizzaService
     {
+        // Static simple list of pizzas for the demo
         private readonly static IEnumerable<Pizza> _pizzas = new List<Pizza>
         {
             new Pizza
