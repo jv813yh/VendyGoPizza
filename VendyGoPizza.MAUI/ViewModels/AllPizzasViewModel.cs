@@ -8,7 +8,7 @@ namespace VendyGoPizza.MAUI.ViewModels
         private readonly PizzaService _pizzaService;
 
         [ObservableProperty]
-        private bool _isFromSearch;
+        private string _isFromSearch;
 
         [ObservableProperty]
         private bool _isSearching;

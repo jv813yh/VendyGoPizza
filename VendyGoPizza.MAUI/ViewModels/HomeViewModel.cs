@@ -20,7 +20,7 @@
         /// <returns></returns>
         /// 
         [RelayCommand]
-        public async Task GoToAllPizzasPage(bool isFromSearch = false)
+        public async Task GoToAllPizzasPage(string isFromSearch)
         {
             if(IsBusy)
             {
