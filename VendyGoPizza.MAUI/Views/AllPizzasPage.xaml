@@ -1,12 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="VendyGoPizza.MAUI.Views.AllPizzasPage"
-             Title="AllPizzasPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="All Items">
+
+    <ContentPage.Triggers>
+        <DataTrigger TargetType="Page" 
+                     Binding="{Binding IsFromSearch}"
+                     Value="True">
+            <Setter Property="Title" Value="Search for pizza" />
+        </DataTrigger>
+    </ContentPage.Triggers>
+
+    <Grid RowDefinitions="auto,*"
+          Margin="5">
+
+        <SearchBar Grid.Row="0"
+                   Placeholder="Search for piza ..."
+                   PlaceholderColor="Goldenrod"
+                   CancelButtonColor="DarkGoldenrod"
+                   TextColor="DarkGoldenrod"
+                   Margin="0,0,40,20"
+                   ios:SearchBar.SearchBarStyle="Minimal"/>
+
+        <ScrollView Grid.Row="1"
+                    Margin="5">
+            <VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding AllPizzas}">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                                           ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="0"
+                                    Background="PaleGoldenrod"
+                                    Padding="10"
+                                    Margin="10,5,10,5">
+
+                                <Label Text="{Binding Name}"/>
+
+                            </Border>
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    
+                </CollectionView>
+                
+            </VerticalStackLayout>
+        </ScrollView>
+        
+    </Grid>
 </ContentPage>

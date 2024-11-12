@@ -67,11 +67,7 @@
                        Padding="10"
                        TextColor="Goldenrod"/>
 
-
             </Border>
-
-
-            <Button Command="{Binding GoToAllPizzasPageCommand}"/>
 
             <BoxView HeightRequest="10"
                      BackgroundColor="Transparent"/>
@@ -86,7 +82,12 @@
                 <Label Text="View All"
                        HorizontalOptions="End"
                        VerticalOptions="End"
-                       TextDecorations="Underline"/>
+                       TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToAllPizzasPageCommand}"
+                                              CommandParameter="{x:Static sys:Boolean.FalseString}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
 
             <FlexLayout BindableLayout.ItemsSource="{Binding Pizzas}"
