@@ -30,7 +30,6 @@
             try
             {
                 SetTrueBoolValues();
-
                 // Navigate to allPizzasPage with the isFromSearch parameter
                 await Shell.Current.GoToAsync($"{nameof(AllPizzasPage)}", true,
                     new Dictionary<string, object>
@@ -47,6 +46,40 @@
             {
                 SetFalseBoolValues();
             }
+        }
+
+        /// <summary>
+        /// Navigate to details page with validation for busy state
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        private async Task GoToDetialsPageAsync(Pizza currentPizza)
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            try
+            {
+                SetTrueBoolValues();
+                // Navigate to details page parameter
+                await Shell.Current.GoToAsync($"{nameof(DetailsPage)}", true,
+                    new Dictionary<string, object>
+                    {
+                        [nameof(DetailsPageViewModel.CurrentPizza)] = currentPizza,
+                    });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error while navigating to details page: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to details page", "Ok");
+            }
+            finally
+            {
+                SetFalseBoolValues();
+            }
+
         }
         protected override void SetFalseBoolValues()
         {

@@ -70,7 +70,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\DetailsPage.xaml.cs">
+	    <DependentUpon>DetailsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\AllPizzasPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\DetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\HomePage.xaml">

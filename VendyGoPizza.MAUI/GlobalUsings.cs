@@ -1,10 +1,9 @@
-﻿global using Microsoft.Extensions.Logging;
-global using System.Collections.ObjectModel;
-global using System.Diagnostics.Tracing;
-global using System.Diagnostics;
+﻿global using CommunityToolkit.Maui;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
-global using CommunityToolkit.Maui;
+global using Microsoft.Extensions.Logging;
+global using System.Collections.ObjectModel;
+global using System.Diagnostics;
 global using VendyGoPizza.MAUI.Models;
 global using VendyGoPizza.MAUI.Services;
 global using VendyGoPizza.MAUI.ViewModels;

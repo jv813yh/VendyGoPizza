@@ -3,10 +3,16 @@
     x:Class="VendyGoPizza.MAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:views="clr-namespace:VendyGoPizza.MAUI.Views"
     Shell.FlyoutBehavior="Disabled"
     Shell.BackgroundColor="DarkGoldenrod"
     Title="VendyGoPizza.MAUI">
+
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="DarkGoldenrod"
+                                   StatusBarStyle="LightContent"/>
+    </Shell.Behaviors>
 
     <ShellContent
         ContentTemplate="{DataTemplate views:MainPage}"

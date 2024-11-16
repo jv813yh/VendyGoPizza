@@ -60,6 +60,9 @@ namespace VendyGoPizza.MAUI.ViewModels
                     AllPizzas.Clear();
                 }
 
+                // Simulation of delay for indicator activity in UI
+                await Task.Delay(1000);
+
                 // Get pizzas by search term and add them to the AllPizzas collection
                 foreach (var pizza in _pizzaService.GetPizzasBySearchTerm(searchTerm))
                 {
@@ -75,6 +78,41 @@ namespace VendyGoPizza.MAUI.ViewModels
             {
                 SetFalseBoolValues();
             }
+        }
+
+
+        /// <summary>
+        /// Navigate to details page with validation for busy state
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        private async Task GoToDetialsPageAsync(Pizza currentPizza)
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            try
+            {
+                SetTrueBoolValues();
+                // Navigate to details page parameter
+                await Shell.Current.GoToAsync($"{nameof(DetailsPage)}", true,
+                    new Dictionary<string, object>
+                    {
+                        [nameof(DetailsPageViewModel.CurrentPizza)] = currentPizza
+                    });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error while navigating to details page: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to details page", "Ok");
+            }
+            finally
+            {
+                SetFalseBoolValues();
+            }
+
         }
 
         protected override void SetTrueBoolValues()

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:VendyGoPizza.MAUI.ViewModels"
+             x:Class="VendyGoPizza.MAUI.Views.DetailsPage"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="White"
+                                   StatusBarStyle="DarkContent"/>
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <ScrollView Padding="10">
+
+            <VerticalStackLayout Spacing="25">
+
+                <Image Source="{Binding CurrentPizza.Image}"
+                       HeightRequest="130"
+                       WidthRequest="130"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <Label Text="{Binding CurrentPizza.Name}"
+                       FontSize="30"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+
+                <VerticalStackLayout Grid.Column="1"
+                                  VerticalOptions="Center"
+                                  Spacing="5">
+
+                    <Label Text="{Binding CurrentPizza.Ingredients}"
+                            FontSize="15"
+                            Margin="20"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            TextColor="Goldenrod"/>
+
+                        <HorizontalStackLayout HorizontalOptions="Center"
+                              VerticalOptions="Center"
+                              Spacing="20">
+
+                            <Label Text="{Binding CurrentPizza.Price, StringFormat='{0:N2}€'}"
+                                   FontSize="20"
+                                   Margin="10"/>
+
+                            <HorizontalStackLayout Grid.Column="1"
+                                            HorizontalOptions="End"
+                                            Spacing="5">
+
+                                <Label Text="4"
+                                       FontSize="18"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="star.png"
+                                    WidthRequest="20"
+                                    HeightRequest="20"
+                                    Margin="0,0,10,0"/>
+                                
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+
+                    <Label Text="{Binding CurrentPizza.Description}"
+                           FontSize="15"
+                           Margin="30"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           TextColor="DarkGoldenrod"/>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+            
+            
+        </ScrollView>
+    </Grid>
+
+    
+</ContentPage>
