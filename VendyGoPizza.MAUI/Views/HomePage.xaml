@@ -1,12 +1,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sys="clr-namespace:System;assembly=netstandard"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:toolkitMaui="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:viewModels="clr-namespace:VendyGoPizza.MAUI.ViewModels"
              x:Class="VendyGoPizza.MAUI.Views.HomePage"
              Shell.NavBarIsVisible="False"
              Padding="15">
-    
+
     <ScrollView VerticalScrollBarVisibility="Never">
         
         <VerticalStackLayout Spacing="15">

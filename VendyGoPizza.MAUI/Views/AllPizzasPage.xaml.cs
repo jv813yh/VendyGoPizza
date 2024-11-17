@@ -1,3 +1,6 @@
+using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
+
 namespace VendyGoPizza.MAUI.Views;
 
 public partial class AllPizzasPage : ContentPage

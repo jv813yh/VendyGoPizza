@@ -42,7 +42,16 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\**" />
+		<MauiImage Update="Resources\Images\back.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		<MauiImage Update="Resources\Images\minus.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
+		<MauiImage Update="Resources\Images\plus.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 		<MauiImage Update="Resources\Images\right_arrow.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</MauiImage>
@@ -58,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\back.png" />
+	  <None Remove="Resources\Images\minus.png" />
+	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\star.png" />
 	</ItemGroup>
 
@@ -77,6 +89,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\AllPizzasPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CartPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\DetailsPage.xaml">

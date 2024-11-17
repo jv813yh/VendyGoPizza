@@ -11,8 +11,8 @@
         public double Price { get; set; }
         public string Ingredients { get; set; }
         public string Description { get; set; }
-        public int Amount 
-            => Quantity * (int)Price;
+        public decimal Amount 
+            => Quantity * (decimal)Price;
 
         public Pizza? Clone() 
             => MemberwiseClone() as Pizza;

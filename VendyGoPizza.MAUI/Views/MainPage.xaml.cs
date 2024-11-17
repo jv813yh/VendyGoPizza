@@ -10,7 +10,7 @@
 
         private async void TapGestureRecognizerHandler(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            await Shell.Current.GoToAsync(nameof(HomePage));
         }
     }
 }

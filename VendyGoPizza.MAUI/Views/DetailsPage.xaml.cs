@@ -10,4 +10,21 @@ public partial class DetailsPage : ContentPage
 
         BindingContext = _detailsPageViewModel;
     }
+
+    private async void ImageButtonClickedHandler(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..", true);
+    }
+
+    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+    {
+        base.OnNavigatedFrom(args);
+
+        // Set the status bar color to the default color of app
+        Behaviors.Add(new CommunityToolkit.Maui.Behaviors.StatusBarBehavior
+        {
+           StatusBarColor = Colors.DarkGoldenrod,
+           StatusBarStyle = CommunityToolkit.Maui.Core.StatusBarStyle.LightContent
+        });
+    }
 }

@@ -1,8 +1,4 @@
-﻿
-using CommunityToolkit.Maui;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace VendyGoPizza.MAUI
+﻿namespace VendyGoPizza.MAUI
 {
     public static class MauiProgram
     {
@@ -24,9 +20,17 @@ namespace VendyGoPizza.MAUI
             // Register HomePage and HomeViewModel with ShellRoute
             builder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
             // Register AllPizzasPage and AllPizzasViewModel with ShellRoute
-            builder.Services.AddSingletonWithShellRoute<AllPizzasPage, AllPizzasViewModel>(nameof(AllPizzasPage));
+            builder.Services.AddTransientWithShellRoute<AllPizzasPage, AllPizzasViewModel>(nameof(AllPizzasPage));
             // Register DetailsPage and DetailsPageViewModel with ShellRoute
-            builder.Services.AddSingletonWithShellRoute<DetailsPage, DetailsPageViewModel>(nameof(DetailsPage));
+            builder.Services.AddTransientWithShellRoute<DetailsPage, DetailsPageViewModel>(nameof(DetailsPage));
+
+            builder.Services.AddSingleton<CartViewModel>();
+            builder.Services.AddTransient<CartPage>();
+
+
+
+
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
