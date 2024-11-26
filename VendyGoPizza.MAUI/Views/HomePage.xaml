@@ -41,7 +41,11 @@
                                 FontSize="18"
                                 CornerRadius="50"
                                 Grid.Row="1"
-                                Text="Get it now !"/>
+                                Text="Get it now !">
+                            <Button.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BestOfferCommand}"/>
+                            </Button.GestureRecognizers>
+                        </Button>
                     </VerticalStackLayout>
 
                     <Image Grid.Column="1"

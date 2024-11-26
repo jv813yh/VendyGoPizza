@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace VendyGoPizza.MAUI.ViewModels
 {
     [QueryProperty(nameof(CurrentPizza), nameof(CurrentPizza))]
@@ -12,6 +14,36 @@ namespace VendyGoPizza.MAUI.ViewModels
         public DetailsPageViewModel(CartViewModel cartViewModel)
         {
             _cartViewModel = cartViewModel;
+
+            // Subscribe to the CartCleared event
+            cartViewModel.CartCleared += CartViewModel_OnCartCleared;
+            // Subscribe to the CartPizzaRemoved event
+            cartViewModel.CartPizzaRemoved += CartViewModel_OnCartPizzaRemoved;
+            // Subscribe to the CartPizzaUpdated event
+            cartViewModel.CartPizzaUpdated += CartViewModel_OnCartPizzaUpdated;
+        }
+
+        private void CartViewModel_OnCartPizzaUpdated(object? sender, Pizza e)
+        {
+            CartViewModel_OnCartItemChanged(e, e.Quantity);
+        }
+
+        private void CartViewModel_OnCartItemChanged(Pizza pizza, int quantity)
+        {
+            if(CurrentPizza.Name == pizza.Name)
+            {
+                CurrentPizza.Quantity = quantity;
+            }
+        }
+
+        private void CartViewModel_OnCartPizzaRemoved(object? sender, Pizza e)
+        {
+            CartViewModel_OnCartItemChanged(e, 0);
+        }
+
+        private void CartViewModel_OnCartCleared(object? sender, EventArgs e)
+        {
+            CartViewModel_OnCartItemChanged(_currentPizza, 0);
         }
 
         [RelayCommand]
@@ -39,13 +71,13 @@ namespace VendyGoPizza.MAUI.ViewModels
                 return;
             }
 
-            if (CurrentPizza.Quantity == 0)
-            {
-                //await Shell.Current.DisplayAlert("Alert", "Please add pizza to cart", "OK");
-                await Toast.Make("Please add pizza to cart", ToastDuration.Short)
-                    .Show();
-                return;
-            }
+            //if (CurrentPizza.Quantity == 0)
+            //{
+            //    //await Shell.Current.DisplayAlert("Alert", "Please add pizza to cart", "OK");
+            //    await Toast.Make("Please add pizza to cart", ToastDuration.Short)
+            //        .Show();
+            //    return;
+            //}
 
             try
             {
@@ -71,6 +103,13 @@ namespace VendyGoPizza.MAUI.ViewModels
         protected override void SetTrueBoolValues()
         {
             IsBusy = true;
+        }
+
+        private void Dispose()
+        {
+            _cartViewModel.CartCleared -= CartViewModel_OnCartCleared;
+            _cartViewModel.CartPizzaRemoved -= CartViewModel_OnCartPizzaRemoved;
+            _cartViewModel.CartPizzaUpdated -= CartViewModel_OnCartPizzaUpdated;
         }
     }
 }

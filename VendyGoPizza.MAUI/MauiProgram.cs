@@ -20,14 +20,16 @@
             // Register HomePage and HomeViewModel with ShellRoute
             builder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
             // Register AllPizzasPage and AllPizzasViewModel with ShellRoute
-            builder.Services.AddTransientWithShellRoute<AllPizzasPage, AllPizzasViewModel>(nameof(AllPizzasPage));
-            // Register DetailsPage and DetailsPageViewModel with ShellRoute
-            builder.Services.AddTransientWithShellRoute<DetailsPage, DetailsPageViewModel>(nameof(DetailsPage));
+            builder.Services.AddSingletonWithShellRoute<AllPizzasPage, AllPizzasViewModel>(nameof(AllPizzasPage));
 
             builder.Services.AddSingleton<CartViewModel>();
-            builder.Services.AddTransient<CartPage>();
+            builder.Services.AddSingleton<CartPage>();
 
+            // Register CartPage and CartViewModel with ShellRoute
+            //builder.Services.AddSingletonWithShellRoute<CartPage, CartViewModel>(nameof(CartPage));
 
+            // Register DetailsPage and DetailsPageViewModel with ShellRoute
+            builder.Services.AddSingletonWithShellRoute<DetailsPage, DetailsPageViewModel>(nameof(DetailsPage));
 
 
 

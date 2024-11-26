@@ -7,7 +7,7 @@
     xmlns:views="clr-namespace:VendyGoPizza.MAUI.Views"
     Shell.FlyoutBehavior="Disabled"
     Shell.BackgroundColor="DarkGoldenrod">
-
+    
     <Shell.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="DarkGoldenrod"
                                    StatusBarStyle="LightContent"/>
@@ -16,5 +16,9 @@
     <ShellContent
         ContentTemplate="{DataTemplate views:MainPage}"
         Route="MainPage" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate views:HomePage}"
+        Route="HomePage" />
 
 </Shell>

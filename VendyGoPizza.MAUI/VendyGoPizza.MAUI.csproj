@@ -45,6 +45,9 @@
 		<MauiImage Update="Resources\Images\back.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</MauiImage>
+		<MauiImage Update="Resources\Images\checked.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 		<MauiImage Update="Resources\Images\minus.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -58,6 +61,9 @@
 		<MauiImage Update="Resources\Images\star.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</MauiImage>
+		<MauiImage Update="Resources\Images\trash.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -68,9 +74,11 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\back.png" />
+	  <None Remove="Resources\Images\checked.png" />
 	  <None Remove="Resources\Images\minus.png" />
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\star.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -92,6 +100,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CartPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CheckoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\DetailsPage.xaml">

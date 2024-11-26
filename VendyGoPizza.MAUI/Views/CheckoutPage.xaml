@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="VendyGoPizza.MAUI.Views.CheckoutPage"
+             Title="Checkout">
+    
+    <VerticalStackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Spacing="25">
+
+        <Image Source="checked.png"
+               x:Name="checkedImage"
+               WidthRequest="150"
+               HeightRequest="150"
+               Aspect="AspectFill"
+               Scale="0">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="Green"/>
+            </Image.Behaviors>
+        </Image>
+        
+        <Label Text="Order Placed Successfully"
+               x:Name="messageLabel"
+            FontSize="30"
+            TextColor="Green"
+               Scale="0"/>
+
+        <Button Text="Go To Home Screen"
+                x:Name="goToHomeButton"
+                Background="DarkGoldenrod"
+                CornerRadius="20"
+                FontSize="18"
+                Padding="50,10"
+                HorizontalOptions="Center"
+                Scale="0"
+                Opacity="0"
+                Clicked="GoToHomeButtonEventHandler"/>
+
+    </VerticalStackLayout>
+</ContentPage>

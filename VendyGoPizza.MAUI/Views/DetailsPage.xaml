@@ -80,6 +80,9 @@
                             </HorizontalStackLayout>
                         </Grid>
 
+                    <ScrollView>
+                        <VerticalStackLayout>
+                            
                     <Label Text="Description:"
                            FontAttributes="Bold"
                            FontSize="20"
@@ -102,6 +105,9 @@
                     <Border HeightRequest="3"
                            Margin="10,0"
                            BackgroundColor="Goldenrod"/>
+                        </VerticalStackLayout>
+                        
+                    </ScrollView>
 
                 </VerticalStackLayout>
 

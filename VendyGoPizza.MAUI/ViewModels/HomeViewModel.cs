@@ -48,11 +48,37 @@
             }
         }
 
-        /// <summary>
-        /// Navigate to details page with validation for busy state
-        /// </summary>
-        /// <returns></returns>
         [RelayCommand]
+        private async Task BestOfferAsync()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            try
+            {
+                // Get random pizza from the list of popular pizzas
+                Pizza? randomPizza = Pizzas.OrderBy(p => Guid.NewGuid())
+                    .FirstOrDefault(); 
+
+                if(randomPizza != null)
+                {
+                    await GoToDetialsPageAsync(randomPizza);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error while executing best offer command {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "An error occurred while executing best offer command ", "Ok");
+            }
+        }
+
+            /// <summary>
+            /// Navigate to details page with validation for busy state
+            /// </summary>
+            /// <returns></returns>
+            [RelayCommand]
         private async Task GoToDetialsPageAsync(Pizza currentPizza)
         {
             if (IsBusy)

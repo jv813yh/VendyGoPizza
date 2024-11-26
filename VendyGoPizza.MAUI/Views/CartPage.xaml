@@ -1,26 +1,195 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModels="clr-namespace:VendyGoPizza.MAUI.ViewModels"
              x:Class="VendyGoPizza.MAUI.Views.CartPage"
-             Title="Cart">
+             Title="Cart"
+             BackgroundColor="PaleGoldenrod">
+    
+    
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Clear Cart"
+                     Command="{Binding ClearCartCommand}"/>
+    </ContentPage.ToolbarItems>
 
     <Grid>
-        
-        <CollectionView ItemsSource="{Binding CartPizzas}">
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
+        <VerticalStackLayout>
+            <Border StrokeShape="RoundRectangle 40"
+                   BackgroundColor="DarkGoldenrod"
+                   StrokeThickness="0"
+                   Margin="10,15,10,5"
+                   IsVisible="False"
+                   HorizontalOptions="Center">
 
-                    <VerticalStackLayout>
-                        <Label Text="{Binding Name}"/>
-                        <Label Text="{Binding Quantity}"/>
-                        <Label Text="{Binding Amount}"/>
-                    </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToHomePageCommand}"/>
+                </Border.GestureRecognizers>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            
-        </CollectionView>
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding IsVisibleButtonHome}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </Border.Triggers>
+
+                <Label Text="Home Page"
+                      TextColor="White"
+                      HorizontalOptions="Center"
+                      FontSize="16"
+                      Padding="10"
+                      FontAttributes="Bold"/>
+            </Border>
+
+            <ScrollView Padding="15">
+
+                    <CollectionView ItemsSource="{Binding CartPizzas}">
+
+                        <CollectionView.EmptyView>
+
+                            <VerticalStackLayout HorizontalOptions="Center"
+                                      Spacing="15">
+
+                                <BoxView HeightRequest="150"
+                                      BackgroundColor="Transparent"/>
+
+                                        <Label Text="No item in the cart"
+                                            TextColor="Gray"
+                                            FontSize="25"
+                                            FontAttributes="Bold"/>
+
+                                <Button Text="Back to Home Page"
+                                     HorizontalOptions="Center"
+                                     BackgroundColor="Goldenrod"
+                                     CornerRadius="20"
+                                     Command="{Binding GoToHomePageCommand}"/>
+
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical"
+                                    ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+
+                                <Border StrokeShape="RoundRectangle 15"
+                                         BackgroundColor="White"
+                                         Padding="10"
+                                         StrokeThickness="0">
+
+                                    <Grid ColumnDefinitions="25, auto, 50, *, 80,25">
+
+                                        <Label Grid.Column="0"
+                                                Text="{Binding Quantity}"
+                                                FontSize="20"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                TextColor="Black"
+                                                FontAttributes="Bold"/>
+
+                                        <Label Grid.Column="1"
+                                                Text="x"
+                                                FontSize="20"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                TextColor="Black"
+                                                FontAttributes="Bold"/>
+
+                                        <Image Grid.Column="2"
+                                                Source="{Binding Image}"
+                                                Aspect="AspectFill"
+                                                HeightRequest="25"
+                                                WidthRequest="25"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"/>
+
+                                        <VerticalStackLayout Grid.Column="3"
+                                                  VerticalOptions="Center"
+                                                  Spacing="5">
+
+                                            <Label Text="{Binding Name}"
+                                                    FontAttributes="Bold"
+                                                    FontSize="16"/>
+                                                        <Label Text="{Binding Price, StringFormat='{0:N2}€'}"/>
+
+                                        </VerticalStackLayout>
+
+                                        <Label Grid.Column="4"
+                                                FontSize="16"
+                                                Text="{Binding Amount, StringFormat='{0:N2}€'}"
+                                                VerticalOptions="Center"
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="Center"/>
+
+                                        <Image Grid.Column="5"
+                                                Source="trash.png"
+                                                HeightRequest="25"
+                                                WidthRequest="25"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="End">
+                                            <Image.Behaviors>
+                                                <toolkit:IconTintColorBehavior TintColor="Red"/>
+                                            </Image.Behaviors>
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CartViewModel}}, Path=RemovePizzaFromCartCommand}"
+                                                           CommandParameter="{Binding Name}"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+
+
+                                    </Grid>
+                                </Border>
+
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+            </ScrollView>
+        </VerticalStackLayout>
+
+
+
+        <Border StrokeShape="RoundRectangle 40"
+                    BackgroundColor="DarkGoldenrod"
+                    StrokeThickness="0"
+                    VerticalOptions="End"
+                    Margin="10"
+                    Padding="10">
+
+            <Grid ColumnDefinitions="*,*">
+                <Label Grid.Column="0"
+                           Padding="15,0"
+                           VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Total: &#10;"
+                                      TextColor="White"
+                                      FontSize="18"/>
+                            <Span Text="{Binding TotalAmount, StringFormat='{0:N2}€'}"
+                                      TextColor="White"
+                                      FontAttributes="Bold"
+                                      FontSize="20"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Button Text="Place Order"
+                        Command="{Binding PlaceOrderCommand}"
+                            CornerRadius="24"
+                            BackgroundColor="Goldenrod"
+                            Grid.Column="1"
+                            Padding="25,10"
+                            VerticalOptions="Center"
+                            HorizontalOptions="End"/>
+            </Grid>
+        </Border>
+
     </Grid>
 </ContentPage>
