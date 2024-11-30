@@ -30,8 +30,12 @@ namespace VendyGoPizza.MAUI.ViewModels
         {
             try
             {
-                var pizzas = _pizzaService.GetAllPizzas();
+                var pizzas = _pizzaService
+                            .GetAllPizzas()
+                            .OrderBy(p => p.Name);
+
                 AllPizzas.Clear(); // Clear any existing items
+
                 foreach (var pizza in pizzas)
                 {
                     AllPizzas.Add(pizza); // Add new items
@@ -61,7 +65,7 @@ namespace VendyGoPizza.MAUI.ViewModels
                 }
 
                 // Simulation of delay for indicator activity in UI
-                await Task.Delay(1000);
+                await Task.Delay(500);
 
                 // Get pizzas by search term and add them to the AllPizzas collection
                 foreach (var pizza in _pizzaService.GetPizzasBySearchTerm(searchTerm))
@@ -102,6 +106,7 @@ namespace VendyGoPizza.MAUI.ViewModels
                     {
                         [nameof(DetailsPageViewModel.CurrentPizza)] = currentPizza
                     });
+
             }
             catch (Exception ex)
             {

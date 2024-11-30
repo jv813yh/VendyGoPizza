@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Windows.Input;
 
 namespace VendyGoPizza.MAUI.ViewModels
 {
@@ -14,36 +15,6 @@ namespace VendyGoPizza.MAUI.ViewModels
         public DetailsPageViewModel(CartViewModel cartViewModel)
         {
             _cartViewModel = cartViewModel;
-
-            // Subscribe to the CartCleared event
-            cartViewModel.CartCleared += CartViewModel_OnCartCleared;
-            // Subscribe to the CartPizzaRemoved event
-            cartViewModel.CartPizzaRemoved += CartViewModel_OnCartPizzaRemoved;
-            // Subscribe to the CartPizzaUpdated event
-            cartViewModel.CartPizzaUpdated += CartViewModel_OnCartPizzaUpdated;
-        }
-
-        private void CartViewModel_OnCartPizzaUpdated(object? sender, Pizza e)
-        {
-            CartViewModel_OnCartItemChanged(e, e.Quantity);
-        }
-
-        private void CartViewModel_OnCartItemChanged(Pizza pizza, int quantity)
-        {
-            if(CurrentPizza.Name == pizza.Name)
-            {
-                CurrentPizza.Quantity = quantity;
-            }
-        }
-
-        private void CartViewModel_OnCartPizzaRemoved(object? sender, Pizza e)
-        {
-            CartViewModel_OnCartItemChanged(e, 0);
-        }
-
-        private void CartViewModel_OnCartCleared(object? sender, EventArgs e)
-        {
-            CartViewModel_OnCartItemChanged(_currentPizza, 0);
         }
 
         [RelayCommand]
@@ -63,31 +34,24 @@ namespace VendyGoPizza.MAUI.ViewModels
             }
         }
 
+
         [RelayCommand]
-        private async Task GoToViewCart()
+        private async Task GoToViewCartAsync()
         {
-            if(IsBusy)
+            if (IsBusy)
             {
                 return;
             }
 
-            //if (CurrentPizza.Quantity == 0)
-            //{
-            //    //await Shell.Current.DisplayAlert("Alert", "Please add pizza to cart", "OK");
-            //    await Toast.Make("Please add pizza to cart", ToastDuration.Short)
-            //        .Show();
-            //    return;
-            //}
-
             try
             {
                 SetTrueBoolValues();
-                await Shell.Current.GoToAsync(nameof(CartPage), true);
+                await Shell.Current.GoToAsync($"{nameof(CartPage)}");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"An error occurred while navigating to cart page: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to cart page", "OK");
+                Debug.WriteLine($"Error while navigating to cart page: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to cart page", "Ok");
             }
             finally
             {
@@ -103,13 +67,6 @@ namespace VendyGoPizza.MAUI.ViewModels
         protected override void SetTrueBoolValues()
         {
             IsBusy = true;
-        }
-
-        private void Dispose()
-        {
-            _cartViewModel.CartCleared -= CartViewModel_OnCartCleared;
-            _cartViewModel.CartPizzaRemoved -= CartViewModel_OnCartPizzaRemoved;
-            _cartViewModel.CartPizzaUpdated -= CartViewModel_OnCartPizzaUpdated;
         }
     }
 }

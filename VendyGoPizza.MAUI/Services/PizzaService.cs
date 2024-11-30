@@ -3,7 +3,7 @@
     public class PizzaService
     {
         // Static simple list of pizzas for the demo
-        private readonly static IEnumerable<Pizza> _pizzas = new List<Pizza>
+        private readonly static List<Pizza> _pizzas = new List<Pizza>
         {
             new Pizza
             {
@@ -93,6 +93,26 @@
         /// <returns></returns>
         public IEnumerable<Pizza> GetAllPizzas()
             => _pizzas;
+
+        //public void SetQuantityForAllPizzas(int quantity)
+        //{
+        //    foreach (var pizza in _pizzas)
+        //    {
+        //        pizza.Quantity = quantity;
+        //    }
+        //}   
+
+        //public void FindAndSetQuantity(Pizza pizzaWanted, int quantity)
+        //{
+        //    var pizzaFromList = _pizzas
+        //                        .FirstOrDefault(p => p.Name == pizzaWanted.Name);
+
+        //    if (pizzaFromList != null &&
+        //        quantity >= 0)
+        //    {
+        //        pizzaFromList.Quantity = quantity;
+        //    }
+        //}
 
         /// <summary>
         /// Get popular pizzas

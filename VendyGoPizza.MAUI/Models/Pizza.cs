@@ -1,4 +1,6 @@
-﻿namespace VendyGoPizza.MAUI.Models
+﻿using System.ComponentModel;
+
+namespace VendyGoPizza.MAUI.Models
 {
     public partial class Pizza : ObservableObject
     {
@@ -16,5 +18,21 @@
 
         public Pizza? Clone() 
             => MemberwiseClone() as Pizza;
+
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is Pizza parameterPizza)
+            {
+                return string.Equals(this.Name, parameterPizza.Name, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

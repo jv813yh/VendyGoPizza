@@ -78,7 +78,7 @@
             /// Navigate to details page with validation for busy state
             /// </summary>
             /// <returns></returns>
-            [RelayCommand]
+        [RelayCommand]
         private async Task GoToDetialsPageAsync(Pizza currentPizza)
         {
             if (IsBusy)

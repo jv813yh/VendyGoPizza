@@ -1,4 +1,6 @@
-﻿namespace VendyGoPizza.MAUI
+﻿using VendyGoPizza.MAUI.State;
+
+namespace VendyGoPizza.MAUI
 {
     public static class MauiProgram
     {
@@ -16,6 +18,8 @@
 
             // Register services
             builder.Services.AddSingleton<PizzaService>();
+            // Register PizzaSynchronizerStore
+            builder.Services.AddSingleton<PizzaSynchronizerStore>();
 
             // Register HomePage and HomeViewModel with ShellRoute
             builder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));

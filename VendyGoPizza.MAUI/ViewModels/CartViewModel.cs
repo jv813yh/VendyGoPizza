@@ -1,4 +1,7 @@
-﻿namespace VendyGoPizza.MAUI.ViewModels
+﻿using System.Windows.Input;
+using VendyGoPizza.MAUI.State;
+
+namespace VendyGoPizza.MAUI.ViewModels
 {
     public partial class CartViewModel : BaseViewModel
     {
@@ -9,20 +12,19 @@
         [ObservableProperty]
         private bool _isVisibleButtonHome;
 
-        // Event to notify when a pizza is removed from the cart
-        public event EventHandler<Pizza> CartPizzaRemoved;
-        // Event to notify when a pizza is updated in the cart
-        public event EventHandler<Pizza> CartPizzaUpdated;
-        // Event to notify when the cart is cleared
-        public event EventHandler CartCleared;
+        // For synchronization of pizzas in the cart,
+        // with the original pizzas and their clones
+        private PizzaSynchronizerStore _pizzaSynchronizerStore;
 
         // List of pizzas in the cart
         public ObservableCollection<Pizza> CartPizzas { get; private set; }
 
 
-        public CartViewModel()
+        public CartViewModel(PizzaSynchronizerStore pizzaSynchronizerStore)
         {
             CartPizzas = new ObservableCollection<Pizza>();
+
+            _pizzaSynchronizerStore = pizzaSynchronizerStore;
         }
 
         /// <summary>
@@ -30,18 +32,24 @@
         /// </summary>
         /// <param name="pizza"></param>
         [RelayCommand]
-        private void AddPizzaToCart(Pizza pizza)
+        private void AddPizzaToCart(Pizza originalPizza)
         {
             // Check if the pizza is already in the cart
-            var cartPizza = CartPizzas.FirstOrDefault(p => p.Name == pizza.Name);
+            var cartPizza = CartPizzas
+                            .FirstOrDefault(p => p.Name == originalPizza.Name);
 
             if (cartPizza == null)
             {
-                CartPizzas.Add(pizza.Clone());
+                // Clone the pizza
+                Pizza clonePizza = originalPizza.Clone();
+                // Add clone to the cart
+                CartPizzas.Add(clonePizza);
+                // Add pair to the store
+                _pizzaSynchronizerStore.AddPair(originalPizza, clonePizza);
             }
             else
             {
-                cartPizza.Quantity = pizza.Quantity;
+                cartPizza.Quantity = originalPizza.Quantity;
             }
 
             RecalculateTotalAmount();
@@ -60,19 +68,23 @@
             }
 
             // Check if the pizza is in the cart
-            var cartPizza = CartPizzas.FirstOrDefault(p => p.Name == name);
-
+            var cartPizza = CartPizzas
+                            .FirstOrDefault(p => p.Name == name);
             try
             {
                 SetTrueBoolValues();
 
                 if (cartPizza != null)
                 {
+                    // Remove the pizza from the cart
                     CartPizzas.Remove(cartPizza);
-                    RecalculateTotalAmount();
 
-                    // Notify that the pizza is removed from the cart
-                    CartPizzaRemoved?.Invoke(this, cartPizza);
+                    // Remove pair from the store
+                    // and get original pizza and quantity
+                    (var pizzaKey, var quantity) = _pizzaSynchronizerStore
+                                                   .RemovePair(cartPizza);
+
+                    RecalculateTotalAmount();
 
                     // Show snackbar to undo the action
                     var snackBarOptions = new SnackbarOptions()
@@ -82,14 +94,15 @@
                         BackgroundColor = Colors.PaleGoldenrod,
                     };
 
+                    // Show snackbar to undo the action
                     var snackBar = Snackbar.Make($"{name} removed from cart",
                         () =>
                         {
+                            // Set properties back correctly
+                            pizzaKey.Quantity = quantity;
                             CartPizzas.Add(cartPizza);
+                            _pizzaSynchronizerStore.AddPair(pizzaKey, cartPizza);
                             RecalculateTotalAmount();
-
-                            // Notify that the pizza is added back to the cart
-                            CartPizzaUpdated?.Invoke(this, cartPizza);
 
                         }, "Undo", TimeSpan.FromSeconds(4), snackBarOptions);
 
@@ -122,18 +135,23 @@
 
             try
             {
-                bool result = await Shell.Current.DisplayAlert("Alert", "Are you sure you want to clear the cart?", "Yes", "No");
+                bool result = await Shell.Current.DisplayAlert("Alert", 
+                    "Are you sure you want to clear the cart?", 
+                    "Yes", 
+                    "No");
 
                 if (result  
                     && CartPizzas.Count > 0)
                 {
                     SetTrueBoolValues();
 
+                    // Clear the cart
                     CartPizzas.Clear();
+                    // Clear the store
+                    _pizzaSynchronizerStore.ClearStore();
                     RecalculateTotalAmount();
 
-                    // Notify that the cart is cleared
-                    CartCleared?.Invoke(this, EventArgs.Empty);
+                    //await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
             }
             catch (Exception ex)
@@ -161,9 +179,8 @@
                 if(CartPizzas.Count > 0)
                 {
                     SetTrueBoolValues();
-
                     CartPizzas.Clear();
-                    CartCleared?.Invoke(this, EventArgs.Empty);
+                    _pizzaSynchronizerStore.ClearStore();
                     RecalculateTotalAmount();
 
                     // Go to checkout page
@@ -181,6 +198,36 @@
             }
         }
 
+        /// <summary>
+        /// Async Command to navigate to the Details page with the last pizza in the cart
+        /// </summary>
+        public ICommand BackToDetailsPageAsyncCommand => new Command(async () =>
+        {
+            if(IsBusy)
+            {
+                return;
+            }
+            try
+            {
+                SetTrueBoolValues();
+                await Shell.Current.GoToAsync(nameof(DetailsPage), false,
+                    new Dictionary<string, object>
+                    {
+                        [nameof(DetailsPageViewModel.CurrentPizza)] = CartPizzas.Last(),
+                    });
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine($"An error occurred while navigating to Details page: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to Details page", "OK");
+            }
+            finally
+            {
+                SetFalseBoolValues();
+            }
+        });
+
         [RelayCommand]
         private async Task GoToHomePageAsync()
         {
@@ -192,12 +239,17 @@
             try
             {
                 SetTrueBoolValues();
-                await Shell.Current.GoToAsync(nameof(HomePage));
+                //await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+
+                // Pop to the root page,
+                // because the HomePage is the first page in the navigation stack 
+                // PopToRootAsync() delete all pages from the navigation stack except the root page
+                await Shell.Current.Navigation.PopToRootAsync();
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"An error occurred while navigating to HomePage: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to Home page", "OK");
+                Debug.WriteLine($"An error occurred while navigating to MainPaige: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "An error occurred while navigating to Main page", "OK");
             }
             finally
             {
@@ -205,11 +257,17 @@
             }
         }
 
+        /// <summary>
+        /// Recalculate the total amount of pizzas in the cart 
+        /// and set the visibility of the home button
+        /// </summary>
         private void RecalculateTotalAmount()
         {
-            TotalAmount = CartPizzas.Sum(p => p.Amount);
+            TotalAmount = CartPizzas
+                         .Sum(p => p.Amount);
 
-            IsVisibleButtonHome = CartPizzas.Any();
+            IsVisibleButtonHome = CartPizzas
+                                  .Any();
         }
         protected override void SetFalseBoolValues()
         {
